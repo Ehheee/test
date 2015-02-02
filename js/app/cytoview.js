@@ -1,14 +1,27 @@
-define(['jquery', 'underscore', 'backbone', 'app/my.utils'], function($,_, Backbone, utils) {
+define(['jquery', 'underscore', 'backbone'], function($,_, backbone) {
 	module = Backbone.View.extend({
+		id: 'cyto',
 		el: '#cytoSection',
 		template: _.template($('#cytoView').html()),
 		render: function() {
-			console.log(this.$el)
 			this.$el.html(this.template({'text': 'boa'}));
 		},
 		initialize: function() {
+			this.listenTo(this.model, 'reset', this.newData);
+			this.listenTo(this.model, 'add', this.newData);
+			this.listenTo(this.model, 'change', this.changedData);
+			this.listenTo(this.model.get('nodes'), 'add', this.changedData);
+			backbone.trigger('request:data', {'type': 'cyto', 'id': this.id, 'model': this.model});
+			
 			this.render();
+		},
+		newData: function() {
+			console.log("newData: " + JSON.stringify(this.model));
+		},
+		changedData: function(event) {
+			console.log("changedData: " + JSON.stringify(this.model));
 		}
+		
 	
 	});
 	/*

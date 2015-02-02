@@ -16,8 +16,10 @@ requirejs.config({
 	}
 });
 
-requirejs(['cytoscape', 'jquery', 'underscore', 'backbone',  'app/cytoview'], function(cytoscape, $, _, backbone, myCyto) {
-	
-	var cyto = new myCyto();
+requirejs(['cytoscape', 'jquery', 'underscore', 'backbone',  'app/cytoview', 'app/dataprovider', 'app/cytonodecollection', 'app/cytonode', 'app/cytomodel'], function(cytoscape, $, _, backbone, myCyto, dataprovider, cytonodecollection, cytonode, cytomodel) {
+	var dataprovider = new dataprovider();
+	var c = new cytomodel();
+	console.log(JSON.stringify(c));
+	var cyto = new myCyto({model: c});
 
 });
